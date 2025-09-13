@@ -1,366 +1,576 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NumPy AI Essentials Cheat Sheet</title>
-    <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
-            line-height: 1.6; 
-            color: #333; 
-            background-color: #fdfdfd;
-        }
-        .container { 
-            max-width: 850px; 
-            margin: 20px auto; 
-            padding: 25px; 
-            border: 1px solid #ddd; 
-            border-radius: 8px; 
-            background-color: #ffffff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        h1, h2 { 
-            color: #1a1a1a; 
-            border-bottom: 2px solid #4A90E2; 
-            padding-bottom: 8px; 
-        }
-        h1 { font-size: 2em; text-align: center; }
-        h2 { font-size: 1.5em; margin-top: 40px; }
-        p { color: #555; }
-        ul { list-style-type: disc; margin-left: 20px; }
-        li { margin-bottom: 8px; }
-        pre { 
-            background-color: #282c34; 
-            color: #abb2bf; 
-            padding: 16px; 
-            border-radius: 6px; 
-            overflow-x: auto; 
-            font-family: "SF Mono", "Consolas", "Courier New", monospace;
-            font-size: 0.9em; 
-        }
-        code .comment { color: #5c6370; font-style: italic; }
-        code .keyword { color: #c678dd; }
-        code .string { color: #98c379; }
-        code .number { color: #d19a66; }
-        code .function { color: #61afef; }
-        code .class-name { color: #e5c07b; }
-        code .operator { color: #56b6c2; }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NumPy — Phase 1 &amp; 2: Complete Learning Notes (1–26)</title>
+<style>
+:root {
+  --text-color: #222;
+  --heading-color: #003366;
+  --code-bg: #f4f4f4;
+  --code-text: #c7254e;
+  --note-bg: #f9f9f9;
+  --note-border: #ccc;
+  --bg-color: #fff;
+}
+
+[data-theme="dark"] {
+  --text-color: #6468d0;
+  --heading-color: #66aaff;
+  --code-bg: #222;
+  --code-text: #d6b471;
+  --note-bg: #333;
+  --note-border: #666;
+  --bg-color: #111;
+}
+
+body {
+  color: var(--text-color);
+  background: var(--bg-color);
+  margin: 0;
+  line-height: 1.6;
+  font-family: system-ui, sans-serif;
+  transition: background 0.3s, color 0.3s;
+}
+
+.container, .wrap {
+  max-width: 900px;
+  margin: auto;
+  padding: 2rem;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: gray;
+  margin-top: 0.5rem;
+}
+
+.muted {
+  color: gray;
+  font-size: 0.9rem;
+}
+
+.tip {
+  background: #e6f7ff;
+  border-left: 5px solid #33aaff;
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.example {
+  background: #fafafa;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 6px;
+  margin: 1rem 0;
+}
+
+h1, h2, h3 {
+  color: var(--heading-color);
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  border-bottom: 2px solid var(--heading-color);
+  padding-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+pre {
+  background: var(--code-bg);
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+code {
+  font-family: 'Fira Code', monospace;
+  color: var(--code-text);
+}
+
+ul, ol {
+  padding-left: 1.5rem;
+}
+
+blockquote {
+  background: var(--note-bg);
+  border-left: 5px solid var(--note-border);
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.toggle-btn {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: var(--heading-color);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>⚡ NumPy — AI Essentials Cheat Sheet</h1>
-        
-        <h2>Setup</h2>
-<pre><code><span class="comment"># Standard import</span>
-<span class="keyword">import</span> numpy <span class="keyword">as</span> np
-<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
-</code></pre>
+  <button class="toggle-btn" onclick="toggleTheme()">🌙 Dark</button>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>NumPy — Phase 1 &amp; 2: Complete Learning Notes (Beginner → Advanced)</h1>
+        <div class="subtitle">Friendly, step-by-step master-notes combining Phases 1 &amp; 2: theory, examples, mini-challenges, pitfalls, and tips.</div>
+      </div>
+    </header>
 
-        <h2>1) Array Creation (Quick)</h2>
-<pre><code><span class="comment"># From Python lists</span>
-a <span class="operator">=</span> np.<span class="function">array</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])  <span class="comment"># dtype is inferred automatically</span>
+    <nav class="toc" aria-label="Table of contents">
+      <strong>Table of contents</strong>
+      <ol>
+        <li><a href="#s1">Motivation: Why NumPy?</a></li>
+        <li><a href="#s2">Setup &amp; Import</a></li>
+        <li><a href="#s3">Arrays vs Python lists</a></li>
+        <li><a href="#s4">Creating Arrays</a></li>
+        <li><a href="#s5">Array attributes</a></li>
+        <li><a href="#s6">Vector / Matrix / Tensor</a></li>
+        <li><a href="#s7">Indexing &amp; Slicing</a></li>
+        <li><a href="#s8">Boolean masking &amp; filtering</a></li>
+        <li><a href="#s9">Fancy indexing</a></li>
+        <li><a href="#s10">Broadcasting</a></li>
+        <li><a href="#s11">Universal functions (ufuncs)</a></li>
+        <li><a href="#s12">Aggregation &amp; axis</a></li>
+        <li><a href="#s13">Reshaping &amp; transpose</a></li>
+        <li><a href="#s14">Concatenate, stack, split</a></li>
+        <li><a href="#s15">Sorting, argsort, searchsorted</a></li>
+        <li><a href="#s16">np.where &amp; conditional assignment</a></li>
+        <li><a href="#s17">Copy vs View &amp; performance tips</a></li>
+        <li><a href="#s18">Random numbers &amp; reproducibility</a></li>
+        <li><a href="#s19">Linear algebra basics</a></li>
+        <li><a href="#s20">Practical mini-projects &amp; exercises</a></li>
+        <li><a href="#s21">Quick reference &amp; cheat-sheet</a></li>
+        <li><a href="#s22">Further reading &amp; next steps</a></li>
+        <li><a href="#s23">Advanced topics</a></li>
+        <li><a href="#s24">Working with real-world data</a></li>
+        <li><a href="#s25">Performance tuning &amp; memory efficiency</a></li>
+        <li><a href="#s26">Final challenges &amp; projects</a></li>
+      </ol>
+    </nav>
 
-<span class="comment"># Built-in functions for common arrays</span>
-z <span class="operator">=</span> np.<span class="function">zeros</span>((<span class="number">3</span>, <span class="number">3</span>))         <span class="comment"># 3x3 array of zeros</span>
-o <span class="operator">=</span> np.<span class="function">ones</span>((<span class="number">2</span>, <span class="number">4</span>))          <span class="comment"># 2x4 array of ones</span>
-f <span class="operator">=</span> np.<span class="function">full</span>((<span class="number">2</span>, <span class="number">2</span>), <span class="number">7</span>)       <span class="comment"># 2x2 array filled with a constant value (7)</span>
-r <span class="operator">=</span> np.random.<span class="function">rand</span>(<span class="number">3</span>, <span class="number">4</span>)     <span class="comment"># 3x4 array of random floats in [0, 1)</span>
-ri <span class="operator">=</span> np.random.<span class="function">randint</span>(<span class="number">0</span>, <span class="number">10</span>, (<span class="number">3</span>, <span class="number">3</span>)) <span class="comment"># 3x3 array of random integers from 0 to 9</span>
+    <section id="s1">
+      <h2>1. Motivation: Why NumPy?</h2>
+      <p>NumPy (Numerical Python) provides fast, memory-efficient arrays and a large library of vectorized operations. Key benefits over pure Python lists:</p>
+      <ul>
+        <li>Speed — C-backed implementations make numeric ops much faster.</li>
+        <li>Compact memory — homogeneous dtype and contiguous arrays.</li>
+        <li>Broadcasting and ufuncs — concise math without Python loops.</li>
+        <li>Interop — foundation for pandas, scikit-learn, TensorFlow, and more.</li>
+      </ul>
+      <div class="tip">If you do numeric computing in Python, NumPy should be your first tool. When you see slow Python loops over large lists, think NumPy.</div>
+    </section>
 
-<span class="comment"># Sequences</span>
-ar <span class="operator">=</span> np.<span class="function">arange</span>(<span class="number">0</span>, <span class="number">12</span>)        <span class="comment"># Similar to Python's range(), creates an array [0, 1, ..., 11]</span>
-ls <span class="operator">=</span> np.<span class="function">linspace</span>(<span class="number">0</span>, <span class="number">1</span>, <span class="number">5</span>)    <span class="comment"># Creates 5 evenly spaced values from 0 to 1</span>
-</code></pre>
+    <section id="s2">
+      <h2>2. Setup &amp; Import</h2>
+      <p><strong>Install (if needed):</strong></p>
+      <pre><code>pip install numpy</code></pre>
+      <p><strong>Import:</strong></p>
+      <pre><code>import numpy as np</code></pre>
+      <p class="muted">Tip: <code>np</code> is the standard alias — use it to make your code familiar to others.</p>
+    </section>
 
-        <h2>2) Important Shapes, dtype, and Memory</h2>
-<pre><code>x <span class="operator">=</span> np.<span class="function">arange</span>(<span class="number">12</span>).<span class="function">reshape</span>(<span class="number">3</span>, <span class="number">4</span>)
+    <section id="s3">
+      <h2>3. Arrays vs Python lists (short theory)</h2>
+      <p>Python lists are flexible containers (mixed types allowed) but are slow for numeric computation. NumPy arrays are homogeneous — same dtype — which allows efficient memory layout and fast C-level loops.</p>
+      <div class="example">
+        <div class="muted">Example — list vs NumPy elementwise multiply:</div>
+        <pre><code># Python list
+lst = [1, 2, 3]
+print(lst * 2)   # -> [1, 2, 3, 1, 2, 3]
 
-<span class="comment"># Get array attributes</span>
-<span class="function">print</span>(<span class="string">f"Shape: {x.shape}"</span>)      <span class="comment"># Output: (3, 4)</span>
-<span class="function">print</span>(<span class="string">f"Dimensions: {x.ndim}"</span>)   <span class="comment"># Output: 2</span>
-<span class="function">print</span>(<span class="string">f"Size: {x.size}"</span>)         <span class="comment"># Output: 12</span>
-<span class="function">print</span>(<span class="string">f"Data Type: {x.dtype}"</span>)  <span class="comment"># Output: int64 (platform dependent)</span>
+# NumPy array (element-wise)
+import numpy as np
+arr = np.array([1,2,3])
+print(arr * 2)   # -> array([2, 4, 6])</code></pre>
+      </div>
+      <div class="tip">Mini-challenge: multiply two lists elementwise without NumPy (use a loop) and then with NumPy — compare clarity and performance.</div>
+    </section>
 
-<span class="comment"># AI Best Practice: Use float32 to save memory and for faster computation on many accelerators (like GPUs)</span>
-x_f32 <span class="operator">=</span> x.<span class="function">astype</span>(np.float32)
-<span class="function">print</span>(<span class="string">f"New Data Type: {x_f32.dtype}"</span>) <span class="comment"># Output: float32</span>
-</code></pre>
+    <section id="s4">
+      <h2>4. Creating Arrays (many ways)</h2>
+      <p>Several constructors exist for different use-cases.</p>
+      <div class="example">
+        <div class="muted">From Python structures</div>
+        <pre><code>a = np.array([1,2,3])            # 1D
+b = np.array([[1,2,3],[4,5,6]])  # 2D</code></pre>
+        <div class="muted">Range-like builders</div>
+        <pre><code>np.arange(0,10,2)    # [0,2,4,6,8]
+np.linspace(0,1,5)   # 5 evenly spaced numbers between 0 and 1</code></pre>
+        <div class="muted">Convenience constructors</div>
+        <pre><code>np.zeros((3,4))
+np.ones((2,2))
+np.eye(4)
+np.empty((2,3))  # uninitialized (fast)</code></pre>
+        <div class="muted">Random arrays</div>
+        <pre><code>np.random.seed(0)
+np.random.rand(3,2)
+np.random.randn(3,2)
+np.random.randint(0,10,5)</code></pre>
+        <div class="muted">Extra example — reshape</div>
+        <pre><code>arr = np.arange(1,10).reshape(3,3)</code></pre>
+      </div>
+    </section>
 
-        <h2>3) Reshape, Expand/Squeeze, Transpose</h2>
-<pre><code>v <span class="operator">=</span> np.<span class="function">arange</span>(<span class="number">6</span>)                 <span class="comment"># shape (6,)</span>
-v2 <span class="operator">=</span> v.<span class="function">reshape</span>(<span class="number">2</span>, <span class="number">3</span>)             <span class="comment"># shape (2, 3)</span>
-flat <span class="operator">=</span> v2.<span class="function">ravel</span>()                <span class="comment"># Flattens the array, returns a view if possible</span>
+    <section id="s5">
+      <h2>5. Array attributes: shape, dtype, ndim, size, itemsize</h2>
+      <p>Useful metadata every ndarray has:</p>
+      <pre><code>a = np.array([[1,2,3],[4,5,6]], dtype=np.int64)
+print(a.shape)   # (2,3)
+print(a.ndim)    # 2
+print(a.size)    # 6  (total elements)
+print(a.dtype)   # int64
+print(a.itemsize) # bytes per element (8 for int64)</code></pre>
+      <div class="tip">Common pitfall: creating arrays from mixed types triggers upcasting (e.g., ints + floats &rarr; float; mixing strings &rarr; string dtype).</div>
+    </section>
 
-<span class="comment"># Add/remove singleton dimensions (very useful for batching)</span>
-x <span class="operator">=</span> np.<span class="function">array</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])          <span class="comment"># shape (3,)</span>
-x_expanded <span class="operator">=</span> np.<span class="function">expand_dims</span>(x, <span class="number">0</span>) <span class="comment"># shape (1, 3) -> Adds a batch dimension</span>
-x_squeezed <span class="operator">=</span> np.<span class="function">squeeze</span>(x_expanded) <span class="comment"># shape (3,) -> Removes singleton dimensions</span>
+    <section id="s6">
+      <h2>6. Vector / Matrix / Tensor — conceptual differences</h2>
+      <p>Shapes map to concepts:</p>
+      <ul>
+        <li><strong>Vector</strong>: 1D, e.g. shape <code>(n,)</code></li>
+        <li><strong>Matrix</strong>: 2D, e.g. shape <code>(m,n)</code></li>
+        <li><strong>Tensor</strong>: n-dimensional (n &gt;= 3), e.g. images, batches of matrices</li>
+      </ul>
+      <pre><code>v = np.array([3,5,7])
+M = np.array([[1,2],[3,4]])
+T = np.zeros((2,3,4))</code></pre>
+    </section>
 
-<span class="comment"># Transpose / swap axes (e.g., converting image format)</span>
-img <span class="operator">=</span> np.<span class="function">zeros</span>((<span class="number">64</span>, <span class="number">64</span>, <span class="number">3</span>))       <span class="comment"># Standard format: Height, Width, Channels (H, W, C)</span>
-img_ch_first <span class="operator">=</span> np.<span class="function">transpose</span>(img, (<span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>)) <span class="comment"># New format: Channels, Height, Width (C, H, W)</span>
-<span class="function">print</span>(<span class="string">f"Image shape (H,W,C): {img.shape}"</span>)
-<span class="function">print</span>(<span class="string">f"Transposed shape (C,H,W): {img_ch_first.shape}"</span>)
-</code></pre>
+    <section id="s7">
+      <h2>7. Indexing &amp; Slicing (1D, 2D, 3D)</h2>
+      <p><strong>1D</strong> — standard Python-like indexing & slicing:</p>
+      <pre><code>v = np.array([10,20,30,40,50])
+print(v[0], v[-1])
+print(v[1:4])
+print(v[:3], v[3:])</code></pre>
 
-        <h2>4) Indexing, Slicing, and Advanced/Fancy Indexing</h2>
-<pre><code>M <span class="operator">=</span> np.<span class="function">arange</span>(<span class="number">16</span>).<span class="function">reshape</span>(<span class="number">4</span>, <span class="number">4</span>)
-<span class="comment"># [[ 0  1  2  3]</span>
-<span class="comment">#  [ 4  5  6  7]</span>
-<span class="comment">#  [ 8  9 10 11]</span>
-<span class="comment">#  [12 13 14 15]]</span>
+      <p><strong>2D</strong> — row, column indexing:</p>
+      <pre><code>m = np.array([[1,2,3],[4,5,6],[7,8,9]])
+print(m[0,1])   # 2
+print(m[1])     # [4,5,6]
+print(m[:,2])   # [3,6,9]</code></pre>
 
-M[<span class="number">0</span>, <span class="number">1</span>]         <span class="comment"># Element at row 0, col 1 -> 1</span>
-M[<span class="number">1</span>, :]         <span class="comment"># Full second row -> [4, 5, 6, 7]</span>
-M[:, <span class="number">2</span>]         <span class="comment"># Full third column -> [2, 6, 10, 14]</span>
-M[<span class="number">0</span>:<span class="number">2</span>, <span class="number">1</span>:<span class="number">3</span>]     <span class="comment"># Submatrix slice -> [[1, 2], [5, 6]]</span>
+      <p><strong>Slices are usually <em>views</em></strong> (not copies): modifying them can change the original array. Use <code>.copy()</code> to create an independent array.</p>
+      <pre><code>sub = m[0:2,0:2]
+sub[0,0] = 999   # changes original m unless you used .copy()</code></pre>
 
-<span class="comment"># Fancy indexing (select specific elements using lists of indices)</span>
-rows <span class="operator">=</span> np.<span class="function">array</span>([<span class="number">0</span>, <span class="number">2</span>])
-cols <span class="operator">=</span> np.<span class="function">array</span>([<span class="number">1</span>, <span class="number">3</span>])
-M[rows, cols]  <span class="comment"># Selects elements at (0, 1) and (2, 3) -> [1, 11]</span>
+      <p><strong>3D</strong> — think of the first axis as the outer list:</p>
+      <pre><code>t = np.arange(24).reshape(2,3,4)  # shape (2,3,4)
+# element access:
+t[0,1,2]</code></pre>
+      <div class="tip">Mini-exercise: Given <code>a = np.arange(16).reshape(4,4)</code>, the bottom-right 2×2 block is <code>a[2:4, 2:4]</code>.</div>
+    </section>
 
-<span class="comment"># Boolean masking (filtering based on a condition)</span>
-arr <span class="operator">=</span> np.<span class="function">arange</span>(<span class="number">10</span>)
-mask <span class="operator">=</span> (arr % <span class="number">2</span> <span class="operator">==</span> <span class="number">0</span>)       <span class="comment"># Creates a boolean array: [True, False, True, ...]</span>
-evens <span class="operator">=</span> arr[mask]           <span class="comment"># Uses the mask to select only the even numbers -> [0, 2, 4, 6, 8]</span>
-</code></pre>
+    <section id="s8">
+      <h2>8. Boolean masking &amp; filtering</h2>
+      <p>Use boolean conditions to create masks and filter arrays:</p>
+      <pre><code>x = np.array([1,5,3,7,2])
+mask = x > 3
+print(x[mask])    # [5,7]
+# one-liner
+print(x[x % 2 == 0])  # even numbers</code></pre>
+      <p>Combine conditions with <code>&amp;</code> (and) and <code>|</code> (or). Always parenthesize the conditions.</p>
+      <pre><code>x[(x &gt; 2) &amp; (x &lt; 7)]</code></pre>
+      <div class="example">
+        <div class="muted">Filter rows in a 2D array where the first column &gt; 5:</div>
+        <pre><code>M = np.array([[1,2],[8,9],[6,7]])
+M[M[:,0] &gt; 5]   # -> [[8,9],[6,7]]</code></pre>
+      </div>
+    </section>
 
-        <h2>5) Broadcasting — The Power Tool</h2>
-        <p>Broadcasting allows NumPy to perform operations on arrays of different (but compatible) shapes.</p>
-<pre><code><span class="comment"># Scalar broadcasted to a matrix</span>
-A <span class="operator">=</span> np.<span class="function">ones</span>((<span class="number">3</span>, <span class="number">4</span>))
-B <span class="operator">=</span> <span class="number">2</span>
-C <span class="operator">=</span> A <span class="operator">*</span> B  <span class="comment"># The scalar 2 is "broadcast" to multiply every element of A</span>
+    <section id="s9">
+      <h2>9. Fancy indexing</h2>
+      <p>Fancy indexing selects arbitrary elements using integer arrays or lists. Note: fancy indexing returns a copy.</p>
+      <pre><code>arr = np.array([10,20,30,40,50])
+indices = [4,1,3]
+print(arr[indices])  # -> [50,20,40]
 
-<span class="comment"># Vector broadcasted to a matrix</span>
-v <span class="operator">=</span> np.<span class="function">arange</span>(<span class="number">4</span>)           <span class="comment"># shape (4,)</span>
-D <span class="operator">=</span> A <span class="operator">+</span> v  <span class="comment"># The vector v is broadcast across each row of A</span>
-</code></pre>
+M = np.arange(12).reshape(3,4)
+rows = [0,2]
+cols = [1,3]
+# Use np.ix_ for outer-product like selection
+print(M[np.ix_(rows, cols)])</code></pre>
+    </section>
 
-        <h2>6) Linear Algebra: Dot, Matmul, Einsum, Solve</h2>
-<pre><code><span class="comment"># Matrix multiplication</span>
-A <span class="operator">=</span> np.random.<span class="function">randn</span>(<span class="number">64</span>, <span class="number">128</span>)
-B <span class="operator">=</span> np.random.<span class="function">randn</span>(<span class="number">128</span>, <span class="number">256</span>)
-C <span class="operator">=</span> A <span class="operator">@</span> B                  <span class="comment"># Preferred shorthand for matrix multiplication -> shape (64, 256)</span>
-C2 <span class="operator">=</span> np.<span class="function">matmul</span>(A, B)       <span class="comment"># Equivalent function call</span>
+    <section id="s10">
+      <h2>10. Broadcasting — theory + many examples</h2>
+      <p><strong>Theory</strong>: Broadcasting lets NumPy operate on arrays of different shapes by stretching size-1 dimensions. Rules:</p>
+      <ol>
+        <li>Align shapes from the right (trailing dimensions).</li>
+        <li>Dimensions are compatible if equal or one of them is 1.</li>
+        <li>Result shape is the maximum along aligned dimensions.</li>
+      </ol>
+      <div class="example">
+        <div class="muted">Add a vector to each row of a matrix</div>
+        <pre><code>M = np.ones((3,4)) * 10      # shape (3,4)
+v = np.array([1,2,3,4])      # shape (4,)
+print(M + v)                 # v broadcast to (3,4)</code></pre>
 
-<span class="comment"># Element-wise multiplication (Hadamard product)</span>
-E <span class="operator">=</span> A <span class="operator">*</span> A                  <span class="comment"># Requires same shape, multiplies element by element</span>
+        <div class="muted">Add a column vector to each column</div>
+        <pre><code>col = np.array([[1],[2],[3]])   # shape (3,1)
+print(M + col)                   # col broadcast to (3,4)</code></pre>
 
-<span class="comment"># Dot product for vectors</span>
-v <span class="operator">=</span> np.random.<span class="function">randn</span>(<span class="number">128</span>)
-w <span class="operator">=</span> np.random.<span class="function">randn</span>(<span class="number">128</span>)
-dot_product <span class="operator">=</span> np.<span class="function">dot</span>(v, w) <span class="comment"># Returns a scalar</span>
+        <div class="muted">Center rows by subtracting row means</div>
+        <pre><code>A = np.random.randn(4,5)
+row_means = A.mean(axis=1).reshape(-1,1)  # shape (4,1)
+A_centered = A - row_means</code></pre>
+      </div>
+      <div class="tip">Gotcha: shapes like (3,1) and (3,) are different — use <code>[:, None]</code> or <code>.reshape()</code> to be explicit.</div>
+    </section>
 
-<span class="comment"># einsum - A flexible and often faster tool for tensor operations</span>
-<span class="comment"># Example: batched matrix multiplication (Batch x M x K) @ (Batch x K x N) -> (Batch x M x N)</span>
-X <span class="operator">=</span> np.random.<span class="function">randn</span>(<span class="number">10</span>, <span class="number">5</span>, <span class="number">8</span>)  <span class="comment"># 10 batches of 5x8 matrices</span>
-Y <span class="operator">=</span> np.random.<span class="function">randn</span>(<span class="number">10</span>, <span class="number">8</span>, <span class="number">6</span>)  <span class="comment"># 10 batches of 8x6 matrices</span>
-Z <span class="operator">=</span> np.<span class="function">einsum</span>(<span class="string">'bmk,bkn->bmn'</span>, X, Y) <span class="comment"># 'b' is batch, 'm,k,n' are matrix dimensions</span>
-<span class="function">print</span>(<span class="string">f"Einsum result shape: {Z.shape}"</span>) <span class="comment"># (10, 5, 6)</span>
+    <section id="s11">
+      <h2>11. Universal functions (ufuncs) &amp; elementwise ops</h2>
+      <p>uFuncs perform elementwise operations in C — fast and memory-efficient:</p>
+      <pre><code>x = np.array([0, np.pi/2, np.pi])
+print(np.sin(x))</code></pre>
+      <p>Common ufuncs: <code>np.sin, np.cos, np.exp, np.log, np.sqrt</code>. Combine them freely for concise math.</p>
+    </section>
 
-<span class="comment"># Other linear algebra utilities</span>
-M <span class="operator">=</span> np.random.<span class="function">randn</span>(<span class="number">4</span>, <span class="number">4</span>)
-invM <span class="operator">=</span> np.linalg.<span class="function">inv</span>(M)              <span class="comment"># Matrix inverse</span>
-eigvals, eigvecs <span class="operator">=</span> np.linalg.<span class="function">eig</span>(M)  <span class="comment"># Eigenvalues and eigenvectors</span>
-u, s, vt <span class="operator">=</span> np.linalg.<span class="function">svd</span>(M)          <span class="comment"># Singular Value Decomposition</span>
+    <section id="s12">
+      <h2>12. Aggregation functions and axis concept</h2>
+      <p>Aggregations reduce dimensions: <code>sum, mean, min, max, std, argmin, argmax</code>. Use <code>axis</code> to control the reduction.</p>
+      <pre><code>A = np.arange(1,13).reshape(3,4)
+print(A.sum())            # total sum
+print(A.sum(axis=0))      # sum per column (shape (4,))
+print(A.sum(axis=1))      # sum per row (shape (3,))</code></pre>
+      <div class="tip">Tip: <code>argmax</code>/<code>argmin</code> return indices. For multidimensional arrays, combine with <code>np.unravel_index</code> to get coordinates.</div>
+    </section>
 
-<span class="comment"># Solve a linear system of equations A*x = b</span>
-b <span class="operator">=</span> np.random.<span class="function">randn</span>(<span class="number">4</span>)
-x <span class="operator">=</span> np.linalg.<span class="function">solve</span>(M, b)
-</code></pre>
+    <section id="s13">
+      <h2>13. Reshaping, flattening, transpose, permute axes</h2>
+      <p>Reshape when the total number of elements stays the same:</p>
+      <pre><code>x = np.arange(12)
+x2 = x.reshape(3,4)</code></pre>
+      <p>Flattening:</p>
+      <pre><code>x2.ravel()   # view when possible
+x2.flatten() # copy</code></pre>
+      <p>Transpose &amp; permute axes:</p>
+      <pre><code>x2.T    # swap axes
 
-        <h2>7) Aggregations & Axis Handling</h2>
-<pre><code>X <span class="operator">=</span> np.random.<span class="function">randn</span>(<span class="number">100</span>, <span class="number">128</span>)   <span class="comment"># Dataset: 100 samples, 128 features</span>
+y = np.zeros((2,3,4))
+y.transpose(1,0,2)  # rearrange axes</code></pre>
+      <div class="tip">Common mistake: attempting impossible reshape sizes raises an error — check <code>.size</code> first.</div>
+    </section>
 
-<span class="comment"># Per-feature mean (for normalization), calculated down the columns (axis=0)</span>
-mean <span class="operator">=</span> np.<span class="function">mean</span>(X, axis<span class="operator">=</span><span class="number">0</span>)
-std_dev <span class="operator">=</span> np.<span class="function">std</span>(X, axis<span class="operator">=</span><span class="number">0</span>)
-<span class="function">print</span>(<span class="string">f"Mean shape: {mean.shape}"</span>) <span class="comment"># (128,)</span>
+    <section id="s14">
+      <h2>14. Concatenation, stacking, splitting</h2>
+      <p>Join arrays along an axis or create a new axis:</p>
+      <pre><code>a = np.array([[1,2],[3,4]])
+b = np.array([[5,6]])
+np.concatenate([a,b], axis=0)  # shape (3,2)
+np.stack([a,a], axis=0)  # shape (2,2,2)
+np.vstack([a,b])
+np.hstack([a,a])</code></pre>
+      <p>Split arrays:</p>
+      <pre><code>np.split(np.arange(6), [2,5])</code></pre>
+      <div class="tip">Performance: avoid repeated concatenations inside loops — collect pieces and concatenate once.</div>
+    </section>
 
-<span class="comment"># Per-sample sums, calculated across the rows (axis=1)</span>
-sample_sums <span class="operator">=</span> np.<span class="function">sum</span>(X, axis<span class="operator">=</span><span class="number">1</span>)
-<span class="function">print</span>(<span class="string">f"Sample sums shape: {sample_sums.shape}"</span>) <span class="comment"># (100,)</span>
+    <section id="s15">
+      <h2>15. Sorting, argsort, searchsorted</h2>
+      <pre><code>x = np.array([3,1,2])
+np.sort(x)      # returns sorted copy
+x.sort()        # in-place
 
-<span class="comment"># keepdims=True is useful for broadcasting the result back</span>
-mean_kept_dims <span class="operator">=</span> np.<span class="function">mean</span>(X, axis<span class="operator">=</span><span class="number">0</span>, keepdims<span class="operator">=</span><span class="keyword">True</span>)
-<span class="function">print</span>(<span class="string">f"Mean shape with keepdims: {mean_kept_dims.shape}"</span>) <span class="comment"># (1, 128)</span>
-</code></pre>
+idx = x.argsort()
+print(x[idx])
 
-        <h2>8) Normalization / Standardization</h2>
-<pre><code><span class="comment"># Standardize features: (x - mean) / (std + epsilon)</span>
-eps <span class="operator">=</span> <span class="number">1e-8</span> <span class="comment"># Epsilon to prevent division by zero</span>
-X_norm <span class="operator">=</span> (X <span class="operator">-</span> np.<span class="function">mean</span>(X, axis<span class="operator">=</span><span class="number">0</span>)) <span class="operator">/</span> (np.<span class="function">std</span>(X, axis<span class="operator">=</span><span class="number">0</span>) <span class="operator">+</span> eps)
+arr = np.array([1,3,4,7])
+np.searchsorted(arr, 5)  # -> 3</code></pre>
+    </section>
 
-<span class="comment"># Min-max scaling to [0, 1]</span>
-X_min <span class="operator">=</span> X.<span class="function">min</span>(axis<span class="operator">=</span><span class="number">0</span>)
-X_max <span class="operator">=</span> X.<span class="function">max</span>(axis<span class="operator">=</span><span class="number">0</span>)
-X_scaled <span class="operator">=</span> (X <span class="operator">-</span> X_min) <span class="operator">/</span> (X_max <span class="operator">-</span> X_min <span class="operator">+</span> eps)
-</code></pre>
+    <section id="s16">
+      <h2>16. <code>np.where</code> and conditional assignment</h2>
+      <p><code>np.where(condition, x, y)</code> selects between <code>x</code> and <code>y</code> per-element. With one argument, returns indices where condition is true.</p>
+      <pre><code>x = np.arange(6)
+np.where(x % 2 == 0, x, -x)  # positive even, negative odd
 
-        <h2>9) Randomness & Reproducibility</h2>
-<pre><code>np.random.<span class="function">seed</span>(<span class="number">42</span>)  <span class="comment"># Seeds the global RNG (simple, but not best practice)</span>
+A = np.array([-1,2,-3,4])
+A2 = np.where(A &lt; 0, 0, A)
 
-<span class="comment"># Best Practice (since NumPy 1.17): Use a Generator for reproducible and thread-safe randomness</span>
-rng <span class="operator">=</span> np.random.<span class="function">default_rng</span>(<span class="number">42</span>)  <span class="comment"># Create a Generator instance</span>
-arr <span class="operator">=</span> rng.<span class="function">normal</span>(size<span class="operator">=</span>(<span class="number">3</span>, <span class="number">3</span>))    <span class="comment"># Generate random numbers from that specific generator</span>
-</code></pre>
+np.where(A &lt; 0)  # indices of negatives</code></pre>
+    </section>
 
-        <h2>10) Softmax, Log-Softmax, Cross-Entropy</h2>
-<pre><code><span class="comment"># Softmax function for converting logits to probabilities</span>
-<span class="keyword">def</span> <span class="function">softmax</span>(logits, axis<span class="operator">=</span><span class="number">1</span>):
-    <span class="comment"># Subtracting the max logit for numerical stability (prevents overflow)</span>
-    z <span class="operator">=</span> logits <span class="operator">-</span> np.<span class="function">max</span>(logits, axis<span class="operator">=</span>axis, keepdims<span class="operator">=</span><span class="keyword">True</span>)
-    exp_z <span class="operator">=</span> np.<span class="function">exp</span>(z)
-    <span class="keyword">return</span> exp_z <span class="operator">/</span> np.<span class="function">sum</span>(exp_z, axis<span class="operator">=</span>axis, keepdims<span class="operator">=</span><span class="keyword">True</span>)
+    <section id="s17">
+      <h2>17. Copy vs View (memory) and performance tips</h2>
+      <p>Slicing usually returns a view (window into original memory). Fancy indexing returns a copy. Use <code>.copy()</code> to create an independent array.</p>
+      <pre><code>x = np.arange(6)
+view = x[1:4]
+view[0] = 999   # x changes as well
+copy = x[1:4].copy()
+copy[0] = -1    # x unaffected</code></pre>
+      <p>Performance tips:</p>
+      <ul>
+        <li>Choose appropriate <code>dtype</code> to save memory (e.g., <code>float32</code> vs <code>float64</code>).</li>
+        <li>Avoid repeated <code>np.concatenate</code> in loops.</li>
+        <li>Use in-place ops (<code>+=</code>, <code>*=</code>) when you don't need the original data.</li>
+      </ul>
+    </section>
 
-<span class="comment"># Log-softmax (more stable than taking log of softmax)</span>
-<span class="keyword">def</span> <span class="function">log_softmax</span>(logits, axis<span class="operator">=</span><span class="number">1</span>):
-    z <span class="operator">=</span> logits <span class="operator">-</span> np.<span class="function">max</span>(logits, axis<span class="operator">=</span>axis, keepdims<span class="operator">=</span><span class="keyword">True</span>)
-    logsum <span class="operator">=</span> np.<span class="function">log</span>(np.<span class="function">sum</span>(np.<span class="function">exp</span>(z), axis<span class="operator">=</span>axis, keepdims<span class="operator">=</span><span class="keyword">True</span>))
-    <span class="keyword">return</span> z <span class="operator">-</span> logsum
+    <section id="s18">
+      <h2>18. Random numbers and reproducibility</h2>
+      <p>Set seed for reproducible results:</p>
+      <pre><code>np.random.seed(42)
+np.random.rand(3,3)</code></pre>
+      <p>Sampling with choices or probabilities:</p>
+      <pre><code>np.random.choice([0,1,2,3], size=5, replace=True, p=[0.1,0.2,0.3,0.4])</code></pre>
+    </section>
 
-<span class="comment"># Categorical cross-entropy loss from logits and integer labels</span>
-<span class="keyword">def</span> <span class="function">cross_entropy_from_logits</span>(logits, labels):
-    <span class="comment"># logits shape: (N, C), labels shape: (N,)</span>
-    logprobs <span class="operator">=</span> <span class="function">log_softmax</span>(logits, axis<span class="operator">=</span><span class="number">1</span>)
-    N <span class="operator">=</span> logits.shape[<span class="number">0</span>]
-    <span class="comment"># Use fancy indexing to pick the log probabilities of the true classes</span>
-    <span class="keyword">return</span> <span class="operator">-</span>np.<span class="function">mean</span>(logprobs[np.<span class="function">arange</span>(N), labels])
-</code></pre>
+    <section id="s19">
+      <h2>19. Linear algebra basics (dot, matmul, inverse, eig)</h2>
+      <pre><code>A = np.array([[1,2],[3,4]])
+b = np.array([5,6])
 
-        <h2>11) One-Hot Encoding</h2>
-<pre><code><span class="comment"># Converts an array of integer labels into a one-hot matrix</span>
-<span class="keyword">def</span> <span class="function">one_hot</span>(labels, num_classes):
-    <span class="comment"># labels shape (N,)</span>
-    N <span class="operator">=</span> labels.shape[<span class="number">0</span>]
-    out <span class="operator">=</span> np.<span class="function">zeros</span>((N, num_classes), dtype<span class="operator">=</span>np.float32)
-    <span class="comment"># Use fancy indexing to set the correct class index to 1.0</span>
-    out[np.<span class="function">arange</span>(N), labels] <span class="operator">=</span> <span class="number">1.0</span>
-    <span class="keyword">return</span> out
-</code></pre>
+np.dot(A,b)      # vector result
+A @ b            # same as dot
+A @ A            # matrix multiply
 
-        <h2>12) Batching & Mini-batches</h2>
-<pre><code><span class="comment"># A simple generator to create mini-batches from a dataset</span>
-<span class="keyword">def</span> <span class="function">minibatches</span>(X, y, batch_size<span class="operator">=</span><span class="number">32</span>, shuffle<span class="operator">=</span><span class="keyword">True</span>, rng<span class="operator">=</span><span class="keyword">None</span>):
-    N <span class="operator">=</span> X.shape[<span class="number">0</span>]
-    indices <span class="operator">=</span> np.<span class="function">arange</span>(N)
-    <span class="keyword">if</span> shuffle:
-        <span class="keyword">if</span> rng <span class="keyword">is</span> <span class="keyword">None</span>:
-            <span class="comment"># Use global RNG if no generator is provided</span>
-            np.random.<span class="function">shuffle</span>(indices)
-        <span class="keyword">else</span>:
-            <span class="comment"># Use the provided generator for shuffling</span>
-            indices <span class="operator">=</span> rng.<span class="function">permutation</span>(indices)
+np.linalg.inv(A)
+np.linalg.solve(A, b)   # more stable than inv @ b
 
-    <span class="keyword">for</span> start <span class="keyword">in</span> <span class="function">range</span>(<span class="number">0</span>, N, batch_size):
-        batch_idx <span class="operator">=</span> indices[start : start <span class="operator">+</span> batch_size]
-        <span class="keyword">yield</span> X[batch_idx], y[batch_idx]
-</code></pre>
+w, v = np.linalg.eig(A)  # eigenvalues and eigenvectors</code></pre>
+      <p>Other useful routines: <code>np.linalg.svd</code>, <code>np.linalg.det</code>, <code>np.linalg.norm</code>.</p>
+    </section>
 
-        <h2>13) Padding Sequences & Images</h2>
-<pre><code><span class="comment"># Pad a 1D sequence</span>
-seq <span class="operator">=</span> np.<span class="function">array</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])
-<span class="comment"># Pad with 3 zeros on the right side</span>
-padded_seq <span class="operator">=</span> np.<span class="function">pad</span>(seq, (<span class="number">0</span>, <span class="number">3</span>), constant_values<span class="operator">=</span><span class="number">0</span>) <span class="comment"># [1, 2, 3, 0, 0, 0]</span>
+    <section id="s20">
+      <h2>20. Practical mini-projects &amp; exercises</h2>
+      <p>These are small projects to practice applied NumPy.</p>
+      <div class="example">
+        <div class="muted">Exercise 1 — Image-like array (gradient)</div>
+        <pre><code>img = np.zeros((100,100,3), dtype=np.uint8)
+img[:, :, 0] = np.linspace(0,255,100).astype(np.uint8)[None, :]</code></pre>
+        <div class="muted">Exercise 2 — Standardize dataset</div>
+        <pre><code>means = X.mean(axis=0)
+stdev = X.std(axis=0)
+X_std = (X - means) / stdev</code></pre>
+        <div class="muted">Exercise 3 — Sliding window (advanced)</div>
+        <pre><code>from numpy.lib.stride_tricks import sliding_window_view
+arr = np.arange(10)
+windows = sliding_window_view(arr, 3)  # shape (8,3)</code></pre>
+      </div>
+      <div class="tip">Mini-challenge: implement a moving average without using <code>np.mean</code> (use cumulative sums).</div>
+    </section>
 
-<span class="comment"># Pad a 2D image (e.g., for convolutions)</span>
-img <span class="operator">=</span> np.<span class="function">zeros</span>((<span class="number">32</span>, <span class="number">32</span>, <span class="number">3</span>))
-<span class="comment"># Pad height and width by 2 pixels on each side, but not the channel dimension</span>
-padded_img <span class="operator">=</span> np.<span class="function">pad</span>(img, ((<span class="number">2</span>, <span class="number">2</span>), (<span class="number">2</span>, <span class="number">2</span>), (<span class="number">0</span>, <span class="number">0</span>)), mode<span class="operator">=</span><span class="string">'constant'</span>, constant_values<span class="operator">=</span><span class="number">0</span>)
-<span class="function">print</span>(<span class="string">f"Padded image shape: {padded_img.shape}"</span>) <span class="comment"># (36, 36, 3)</span>
-</code></pre>
+    <section id="s21">
+      <h2>21. Quick reference &amp; cheat-sheet</h2>
+      <ul>
+        <li><strong>Creation:</strong> <code>np.array, np.arange, np.linspace, np.zeros, np.ones, np.eye</code></li>
+        <li><strong>Random:</strong> <code>np.random.rand, randn, randint, choice</code></li>
+        <li><strong>Math / ufuncs:</strong> <code>np.sin, np.exp, np.log, np.sqrt</code></li>
+        <li><strong>Aggregation:</strong> <code>sum, mean, std, min, max, argmax</code></li>
+        <li><strong>Reshape:</strong> <code>reshape, ravel, flatten, transpose</code></li>
+        <li><strong>Join / split:</strong> <code>concatenate, vstack, hstack, split</code></li>
+        <li><strong>Conditional:</strong> <code>where, any, all</code></li>
+        <li><strong>Linear algebra:</strong> <code>dot, @, inv, det, eig, solve</code></li>
+      </ul>
+    </section>
 
-        <h2>14) Image Basics (Displaying Arrays)</h2>
-<pre><code><span class="comment"># A helper function to display an image from a NumPy array</span>
-<span class="keyword">def</span> <span class="function">show</span>(img, title<span class="operator">=</span><span class="keyword">None</span>):
-    plt.<span class="function">imshow</span>(img)
-    plt.<span class="function">axis</span>(<span class="string">'off'</span>)
-    <span class="keyword">if</span> title:
-        plt.<span class="function">title</span>(title)
-    plt.<span class="function">show</span>()
+    <section id="s22">
+      <h2>22. Further reading and next steps</h2>
+      <ul>
+        <li>Official docs: <a href="https://numpy.org/doc/" target="_blank">numpy.org/doc</a></li>
+        <li>SciPy: scientific computing on top of NumPy</li>
+        <li>pandas: labeled/tabular data with NumPy under the hood</li>
+        <li>matplotlib / seaborn: visualization</li>
+        <li>scikit-learn: machine learning tooling that uses NumPy arrays</li>
+      </ul>
+    </section>
 
-<span class="comment"># Example: create a random noise image</span>
-random_image <span class="operator">=</span> np.random.<span class="function">rand</span>(<span class="number">64</span>, <span class="number">64</span>, <span class="number">3</span>)
-<span class="comment"># show(random_image, title="Random Noise Image")</span>
-</code></pre>
+    <section id="s23">
+      <h2>23. Advanced NumPy Topics (stride tricks, structured arrays, broadcasting tricks)</h2>
+      <p><strong>Stride tricks:</strong> create sliding windows without copies using <code>sliding_window_view</code>:</p>
+      <pre><code>from numpy.lib.stride_tricks import sliding_window_view
+arr = np.arange(10)
+print(sliding_window_view(arr, 3))</code></pre>
+      <p><strong>Structured arrays:</strong> mixed-type records (like small in-memory tables):</p>
+      <pre><code>dtype = [("name", "U10"), ("age", "i4"), ("weight", "f4")]
+data = np.array([("Alice",25,55.0), ("Bob",30,85.5)], dtype=dtype)
+print(data['name'])</code></pre>
+      <p><strong>Broadcasting tricks:</strong> use <code>np.newaxis</code> / <code>None</code> to add axes, or <code>keepdims=True</code> in reductions to preserve dims for broadcasting.</p>
+    </section>
 
-        <h2>15) Image "Dark Mode" Tricks</h2>
-<pre><code><span class="comment"># Assume img is a NumPy array with float values in the range [0, 1]</span>
-img <span class="operator">=</span> np.random.<span class="function">rand</span>(<span class="number">64</span>, <span class="number">64</span>, <span class="number">3</span>)
+    <section id="s24">
+      <h2>24. Working with real-world data (CSV, images, pandas interop)</h2>
+      <p>NumPy works well with file I/O and other libs.</p>
+      <pre><code># load numeric CSV (simple)
+arr = np.genfromtxt('data.csv', delimiter=',', skip_header=1)
 
-<span class="comment"># Method 1: Invert the colors</span>
-dark_invert <span class="operator">=</span> <span class="number">1.0</span> <span class="operator">-</span> img
+# image -> NumPy (via PIL)
+from PIL import Image
+img = np.array(Image.open('image.jpg'))
 
-<span class="comment"># Method 2: Replace bright pixels with black (thresholding)</span>
-gray <span class="operator">=</span> np.<span class="function">mean</span>(img, axis<span class="operator">=</span><span class="number">2</span>)  <span class="comment"># Convert to grayscale to get brightness</span>
-mask <span class="operator">=</span> gray <span class="operator">></span> <span class="number">0.95</span>           <span class="comment"># Find pixels that are very bright</span>
-img2 <span class="operator">=</span> img.<span class="function">copy</span>()
-img2[mask] <span class="operator">=</span> <span class="number">0.0</span>             <span class="comment"># Set those pixels to black</span>
-</code></pre>
+# interop with pandas
+a = pd.read_csv('data.csv').to_numpy()</code></pre>
+      <div class="tip">When working with real-world data, watch out for missing values and types — pandas is often more convenient for messy CSVs.</div>
+    </section>
 
-        <h2>16) Copy vs. View</h2>
-<pre><code>A <span class="operator">=</span> np.<span class="function">arange</span>(<span class="number">6</span>).<span class="function">reshape</span>(<span class="number">2</span>, <span class="number">3</span>)
-view <span class="operator">=</span> A.<span class="function">reshape</span>(<span class="number">3</span>, <span class="number">2</span>)  <span class="comment"># Reshaping often returns a 'view'</span>
-view[<span class="number">0</span>, <span class="number">0</span>] <span class="operator">=</span> <span class="number">99</span>         <span class="comment"># Modifying the view...</span>
-<span class="comment"># print(f"Original A:\n{A}") # ...also modifies the original array!</span>
+    <section id="s25">
+      <h2>25. Performance tuning and memory efficiency</h2>
+      <p>Best practices:</p>
+      <ul>
+        <li>Prefer vectorized ops over Python loops.</li>
+        <li>Use appropriate <code>dtype</code> (e.g., <code>float32</code> when 64-bit isn't needed).</li>
+        <li>Avoid unnecessary copies; be mindful if slices are views.</li>
+        <li>Use in-place operators to save memory.</li>
+      </ul>
+      <div class="example">
+        <div class="muted">Benchmark example</div>
+        <pre><code>import time
+x = np.random.rand(10**6)
+start = time.time()
+y = x * 2
+print('Time:', time.time() - start)</code></pre>
+      </div>
+    </section>
 
-copy <span class="operator">=</span> A.<span class="function">copy</span>()         <span class="comment"># Creates an independent copy</span>
-copy[<span class="number">0</span>, <span class="number">0</span>] <span class="operator">=</span> <span class="number">0</span>          <span class="comment"># Modifying the copy does not affect A</span>
-</code></pre>
+    <section id="s26">
+      <h2>26. Final challenges and projects</h2>
+      <p>Capstone tasks to solidify your NumPy skills:</p>
+      <ol>
+        <li>Implement K-means clustering from scratch using only NumPy.</li>
+        <li>Build linear regression (normal equation) and compare with scikit-learn.</li>
+        <li>Simulate Conway's Game of Life using NumPy slicing and boolean ops.</li>
+        <li>Implement 2D convolution (image blur) using <code>sliding_window_view</code> or manual strides.</li>
+      </ol>
+      <div class="tip">Want solutions or starter code for any of these? Ask and I’ll provide step-by-step implementations.</div>
+    </section>
 
-        <h2>17) Useful Helpers</h2>
-<pre><code><span class="comment"># np.repeat: repeat elements</span>
-np.<span class="function">repeat</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="number">2</span>) <span class="comment"># [1, 1, 2, 2, 3, 3]</span>
-
-<span class="comment"># np.tile: repeat the whole array pattern</span>
-np.<span class="function">tile</span>([<span class="number">1</span>, <span class="number">2</span>], <span class="number">3</span>)      <span class="comment"># [1, 2, 1, 2, 1, 2]</span>
-
-<span class="comment"># np.unique: find unique values</span>
-vals <span class="operator">=</span> np.<span class="function">unique</span>(np.<span class="function">array</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">3</span>])) <span class="comment"># [1, 2, 3]</span>
-
-<span class="comment"># np.argsort: get the indices that would sort an array</span>
-idx <span class="operator">=</span> np.<span class="function">argsort</span>([<span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>]) <span class="comment"># [1, 2, 0] -> to sort, take element at index 1, then 2, then 0</span>
-
-<span class="comment"># np.where: conditional replacement or selection</span>
-a <span class="operator">=</span> np.<span class="function">array</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])
-np.<span class="function">where</span>(a <span class="operator">%</span> <span class="number">2</span> <span class="operator">==</span> <span class="number">0</span>, a <span class="operator">*</span> <span class="number">10</span>, a) <span class="comment"># If condition is true, use a*10, else use a -> [1, 20, 3, 40]</span>
-
-<span class="comment"># np.argmax / np.argmin: find index of max/min value</span>
-probabilities <span class="operator">=</span> np.<span class="function">array</span>([[<span class="number">0.1</span>, <span class="number">0.8</span>, <span class="number">0.1</span>], [<span class="number">0.5</span>, <span class="number">0.2</span>, <span class="number">0.3</span>]])
-best_class_indices <span class="operator">=</span> np.<span class="function">argmax</span>(probabilities, axis<span class="operator">=</span><span class="number">1</span>) <span class="comment"># [1, 0]</span>
-</code></pre>
-
-        <h2>18) Efficiency Tips & AI Best Practices</h2>
-        <ul>
-            <li>Use <code>np.float32</code> for tensors to reduce memory and match ML frameworks.</li>
-            <li>Always prefer vectorized operations over Python <code>for</code> loops.</li>
-            <li>Use <code>np.einsum</code> for complex tensor contractions; it can be more readable and faster.</li>
-            <li>Use <code>np.random.default_rng()</code> for reproducible randomness.</li>
-            <li>Use <code>keepdims=True</code> when you need to broadcast an aggregated result back.</li>
-            <li>Avoid unnecessary copies with <code>.copy()</code>; use views when it's safe to do so.</li>
-        </ul>
-
-        <h2>19) End-to-End Example: Forward Pass of a Tiny Classifier</h2>
-<pre><code><span class="comment"># A simple forward pass for a single-layer neural network</span>
-<span class="keyword">def</span> <span class="function">forward_and_loss</span>(X, W, b, y):
-    <span class="comment"># X: (N, D) input data, W: (D, C) weights, b: (C,) bias, y: (N,) labels</span>
-    <span class="comment"># N=samples, D=features, C=classes</span>
-
-    <span class="comment"># 1. Linear layer</span>
-    logits <span class="operator">=</span> X <span class="operator">@</span> W <span class="operator">+</span> b          <span class="comment"># (N, D) @ (D, C) -> (N, C)</span>
-
-    <span class="comment"># 2. Softmax for probabilities</span>
-    probs <span class="operator">=</span> <span class="function">softmax</span>(logits, axis<span class="operator">=</span><span class="number">1</span>)
-
-    <span class="comment"># 3. Cross-entropy loss</span>
-    loss <span class="operator">=</span> <span class="function">cross_entropy_from_logits</span>(logits, y)
-
-    <span class="keyword">return</span> probs, loss
-</code></pre>
-    </div>
+    <footer>
+      <p class="muted">Generated: Full HTML tutorial for NumPy (Sections 1–26). You can copy this HTML into a file <code>numpy_tutorial.html</code> and open it in your browser. Want a downloadable file or a PDF export? Tell me and I will prepare it.</p>
+    </footer>
+  </div>
+<script>
+    function toggleTheme() {
+      const body = document.body;
+      const btn = document.querySelector('.toggle-btn');
+      if (body.getAttribute('data-theme') === 'dark') {
+        body.removeAttribute('data-theme');
+        btn.textContent = '🌙 Dark';
+      } else {
+        body.setAttribute('data-theme', 'dark');
+        btn.textContent = '☀️ Light';
+      }
+    }
+</script>
 </body>
 </html>
